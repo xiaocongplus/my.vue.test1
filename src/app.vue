@@ -25,14 +25,15 @@
                 </Menu>
             </Header>
             <Content :style="{padding: '0 50px'}">
-                <Breadcrumb :style="{margin: '20px 0'}">
-                    <BreadcrumbItem>Home</BreadcrumbItem>
-                    <BreadcrumbItem>Components</BreadcrumbItem>
-                    <BreadcrumbItem>Layout</BreadcrumbItem>
+                <Breadcrumb :style="{margin: '20px 0'}" separator=">">
+                    <BreadcrumbItem v-for="(item,i) in list" :key="item.path" :to="item.urlPath">
+                        {{item.path}}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>{{lastItem}}</BreadcrumbItem>
                 </Breadcrumb>
-                <transition mode="out-in">
+<!--                <transition mode="out-in">-->
                     <router-view></router-view>
-                </transition>
+<!--                </transition>-->
             </Content>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
         </Layout>
@@ -44,10 +45,42 @@
         name: "app",
         data() {
             return {
-                theme1: 'light'
+                theme1: 'light',
+                list: [],
+                arrayUrl: [],
+                lastItem: ''
             }
         },
-        methods: {}
+        methods: {
+            queryList() {
+                this.list = [];
+                this.arrayUrl = this.$route.fullPath.split('/');
+                this.arrayUrl.splice(0, 1);
+
+                var box = '';
+                const length = this.arrayUrl.length;
+
+                this.arrayUrl.forEach((val, i) => {
+                    if (i === length - 1) {
+                        this.lastItem = val;
+                    }
+                    box = box + '/' + val;
+                    this.list.push({path: val, urlPath: box});
+                });
+
+                if (length > 3) {
+                    this.lastItem = this.arrayUrl[length - 2];
+                    this.list.splice(length - 2, 2);
+                }
+                this.list.splice(length - 1, 1);
+            }
+        },
+        created() {
+            this.queryList();
+        },
+        beforeUpdate() {
+            this.queryList();
+        }
     }
 </script>
 
@@ -81,7 +114,6 @@
     }
 
     .ivu-layout-content {
-        height: 2000px;
         overflow-x: hidden;
     }
 
@@ -90,7 +122,7 @@
         transform: translateX(100%);
     }
 
-    .v-leave-to{
+    .v-leave-to {
         opacity: 0;
         transform: translateX(-100%);
         position: absolute;
