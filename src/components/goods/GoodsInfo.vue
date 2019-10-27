@@ -1,6 +1,6 @@
 <template>
     <div class="goodsInfo-container">
-        <div class="aim" ref="aim">0</div>
+        <div class="aim" ref="aim">{{$store.getters.getAllNum}}</div>
         <lunBo-box :lunBoList="this.lunBoList" :isfull="false"></lunBo-box>
         <Card>
             <div>
@@ -79,14 +79,13 @@
             },
             putCar() {
                 this.flag = !this.flag;
-
-
-
-
-
-
-
-
+                var goodsInfo = {
+                    id:this.id,
+                    num:this.num,
+                    price:this.goodsInfoList.sell_price,
+                    selected:'true'
+                };
+                this.$store.commit('addToCar',goodsInfo);
             },
             introduce(){
                 this.$router.push('/home/goods/goodsInfo/goodsDesc/'+this.id);
