@@ -1,12 +1,15 @@
 <template>
     <div class="goodsInfo-container">
-        <div class="aim" ref="aim">{{$store.getters.getAllNum}}</div>
+        <div class="aim" ref="aim">
+            {{$store.getters.getAllNum}}
+        </div>
         <lunBo-box :lunBoList="this.lunBoList" :isfull="false"></lunBo-box>
         <Card>
             <div>
                 <p>{{this.goodsInfoList.title}}</p>
                 <p>
-                    市场价: ￥<del>{{this.goodsInfoList.market_price}}</del>&nbsp;&nbsp;
+                    市场价: ￥
+                    <del>{{this.goodsInfoList.market_price}}</del>&nbsp;&nbsp;
                     <span class="now_price">销售价: ￥{{this.goodsInfoList.sell_price}}</span>
                 </p>
                 <p style="height: 40px">购买数量:
@@ -45,11 +48,11 @@
         name: "GoodsInfo",
         data() {
             return {
-                num:1,
+                num: 1,
                 id: this.$route.params.id,
                 lunBoList: [],
-                goodsInfoList:{},
-                flag:false
+                goodsInfoList: {},
+                flag: false
             }
         },
         methods: {
@@ -65,7 +68,7 @@
                     }
                 });
             },
-            getGoodsInfo(){
+            getGoodsInfo() {
                 this.axios.get('api/goods/getinfo/' + this.id).then((result) => {
                     if (result.data.status === 0) {
                         this.goodsInfoList = result.data.message[0];
@@ -80,25 +83,25 @@
             putCar() {
                 this.flag = !this.flag;
                 var goodsInfo = {
-                    id:this.id,
-                    num:this.num,
-                    price:this.goodsInfoList.sell_price,
-                    selected:'true'
+                    id: this.id,
+                    num: this.num,
+                    price: this.goodsInfoList.sell_price,
+                    selected: 'true'
                 };
-                this.$store.commit('addToCar',goodsInfo);
+                this.$store.commit('addToCar', goodsInfo);
             },
-            introduce(){
-                this.$router.push('/home/goods/goodsInfo/goodsDesc/'+this.id);
+            introduce() {
+                this.$router.push('/home/goods/goodsInfo/goodsDesc/' + this.id);
             },
-            review(){
-                this.$router.push('/home/goods/goodsInfo/goodsComment/'+this.id);
+            review() {
+                this.$router.push('/home/goods/goodsInfo/goodsComment/' + this.id);
             },
-            beforeEnter(el){
+            beforeEnter(el) {
                 el.style.transform = 'translate(0,0)';
                 el.style.opacity = '1';
 
             },
-            enter(el,done){
+            enter(el, done) {
                 const ballPosition = this.$refs.ball.getBoundingClientRect();
                 const aimPosition = this.$refs.aim.getBoundingClientRect();
                 const xDi = aimPosition.left - ballPosition.left;
@@ -111,10 +114,10 @@
                 // el.style.transition = 'all 0.8s cubic-bezier(.4,-0.3,1,0.68)';
                 done();
             },
-            afterEnter(el){
+            afterEnter(el) {
                 this.flag = !this.flag;
             },
-            numChanged(){
+            numChanged() {
                 console.log(this.num);
                 console.log(this.$refs.numBox.value);
             }
@@ -131,13 +134,16 @@
 <style lang="scss" scoped>
     .goodsInfo-container {
         background: #eeeeee;
-        .now_price{
+
+        .now_price {
             color: red;
         }
-        p{
+
+        p {
             margin: 2px;
         }
-        .ball{
+
+        .ball {
             border-radius: 50%;
             width: 25px;
             height: 25px;
@@ -147,17 +153,18 @@
             left: 116px;
             z-index: 99;
         }
-        .aim{
+
+        .aim {
             border-radius: 50%;
             width: 25px;
             height: 25px;
             background: red;
             position: absolute;
-            top: 59px;
-            right: 235px;
+            top: 60px;
+            right: 198px;
+            padding-top: 2px;
             z-index: 99;
             text-align: center;
-            padding-top:2px;
             font-size: 14px;
             color: yellow;
         }

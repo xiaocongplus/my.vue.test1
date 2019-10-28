@@ -17,6 +17,7 @@
                             <Icon type="md-cart"/>
                             购物车
                         </MenuItem>
+
                         <MenuItem name="4" to="/search">
                             <Icon type="md-search"/>
                             搜索
@@ -131,5 +132,4 @@
     .v-enter-active, .v-leave-v-enter-active {
         transition: all 0.8s ease;
     }
-
 </style>
